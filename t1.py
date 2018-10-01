@@ -10,7 +10,7 @@ def get_smallest(s):
     cnt = Counter(s)
     halfcnt = Counter({k:int(v/2) for k,v in cnt.items()})
     keyseq = sorted(halfcnt.elements())
-    pos = [0]
+    pos = [-1]
     s = list(reversed(s))
     selected = []
 
