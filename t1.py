@@ -1,24 +1,25 @@
-def find_pos(s, pos, c):
-    end = len(s)
-    for i in pos[::-1]:
-        for j in range(i + 1, end):
-            if c == s[j]:
-                return j
-        end = min(i, end)
-
+from collections import Counter
 def get_smallest(s):
     cnt = Counter(s)
-    halfcnt = Counter({k:int(v/2) for k,v in cnt.items()})
-    keyseq = sorted(halfcnt.elements())
-    pos = [-1]
-    s = list(reversed(s))
-    selected = []
+    require = {k:int(v/2) for k,v in cnt.items()}
+    remain = dict(cnt)
+    s = s[::-1]
+    res = []
 
-    for key in keyseq:
-        # find key as per order of pos
-        idx = find_pos(s, pos, key)
-        pos.append(idx)
-        selected.append((idx, s[idx]))
-        s[idx] = '_'
+    def can_pop(c):
+        return require[c] + 1 <= remain[c]
 
-    return ''.join([t[1] for t in sorted(selected, key=lambda i: i[0])])
+    for c in s:
+        if require[c] > 0:
+
+            while res and res[-1] > c and can_pop(res[-1]):
+                pc = res.pop()
+                require[pc] += 1
+
+            res.append(c)
+            require[c] -= 1
+
+        remain[c] -= 1
+
+    return ''.join(res)
+
