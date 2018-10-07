@@ -14,10 +14,10 @@ def max_sum(arr):
     for i in range(2, len(arr)):
         cs = sum_end[i - 2] + arr[i]
         ms = max(ms, cs)
-        sum_end[i] = max(ms, arr[i])
+        sum_end[i] = max(ms, arr[i], arr[i - 1])
 
     return ms
 
-arr = [-2, 1, 3, -4, 5]
+arr = [3, 5, -7, 8, 10]
 ms = max_sum(arr)
 print(ms)
