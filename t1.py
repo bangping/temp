@@ -1,34 +1,19 @@
 import os
 import sys
 
+-
 def get_cand(n, arr):
-    cur_m = arr[0]
-    is_increase = None
-    cur_num = 1
-    prev_num = len(arr) + 1
-    prev_is_increase = None
-    cand = 0
-    for r in arr[1:]:
-        if r != cur_m and is_increase is None:
-            is_increase = (r > cur_m)
-            cur_num += 1
-            cur_m = r
-        elif r != cur_m and is_increase == (r > cur_m):
-            cur_num += 1
-            cur_m = r
-        else:
-            cand += int((cur_num + 1) * cur_num / 2)
-            if prev_is_increase is not None and prev_is_increase != is_increase and prev_num <= cur_num:
-                cand += cur_num - prev_num + 1
-            prev_num = cur_num
-            prev_is_increase = is_increase
-            cur_num = 1
-            cur_m = r
-            is_increase = None
-    cand += int((cur_num + 1) * cur_num / 2)
-    if prev_is_increase is not None and prev_is_increase != is_increase and prev_num <= cur_num:
-        cand += cur_num - prev_num + 1
-    return cand
+    cand = [1] * len(arr)
+
+    for i in range(1, len(arr)):
+        if arr[i] > arr[i - 1]:
+            cand[i] = cand[i - 1] + 1
+    for i in reversed(range(len(arr) - 1)):
+        if arr[i] > arr[i + 1]:
+            cand[i] = max(cand[i + 1] + 1, cand[i])
+
+    return sum(cand)
+
 
 
 n = 10
