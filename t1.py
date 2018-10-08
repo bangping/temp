@@ -6,6 +6,7 @@ def get_cand(n, arr):
     is_increase = None
     cur_num = 1
     prev_num = len(arr) + 1
+    prev_is_increase = None
     cand = 0
     for r in arr[1:]:
         if r != cur_m and is_increase is None:
@@ -17,16 +18,18 @@ def get_cand(n, arr):
             cur_m = r
         else:
             cand += int((cur_num + 1) * cur_num / 2)
-            if prev_num <= cur_num:
+            if prev_is_increase is not None and prev_is_increase != is_increase and prev_num <= cur_num:
                 cand += cur_num - prev_num + 1
             prev_num = cur_num
+            prev_is_increase = is_increase
             cur_num = 1
             cur_m = r
             is_increase = None
     cand += int((cur_num + 1) * cur_num / 2)
-    if prev_num <= cur_num:
+    if prev_is_increase is not None and prev_is_increase != is_increase and prev_num <= cur_num:
         cand += cur_num - prev_num + 1
     return cand
+
 
 n = 10
 arr = [2, 4, 2, 6, 1, 7, 8, 9, 2, 1]
